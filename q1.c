@@ -49,7 +49,7 @@ int main(int argc, char *argv[]){
 
     }
     else if(userIn == 3){
-
+      void inOrder(rootPtr);
     }
     else if(userIn == 4){
 
