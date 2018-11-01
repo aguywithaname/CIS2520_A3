@@ -237,7 +237,7 @@ expNode *parse(char *equation){
 
     strcpy(newNode->element, equation);
 
-    for(k = 0; k < 4; i++){
+    for(k = 0; k < 4; k++){
       if(k == 0){
         newNode->element[strlen(equation) + k] = ':';
       }
@@ -267,6 +267,7 @@ void inOrder(expNode *nextNode){
     printf("%s ", nextNode->element);
     inOrder(nextNode->right);
   }
+}
 
 //online code https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
 void preOrder(expNode *nextNode){
@@ -284,6 +285,4 @@ void postOrder(expNode *nextNode){
     postOrder(nextNode->right);
     printf("%s ", nextNode->element);
   }
-}
-
 }
