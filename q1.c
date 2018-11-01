@@ -20,6 +20,8 @@ typedef struct node{
 //void insert(expNode *rootPtr);
 expNode *parse(char *equation);
 void inOrder(expNode *nextNode);
+void preOrder(expNode *nextNode);
+void postOrder(expNode *nextNode);
 
 int main(int argc, char *argv[]){
   int userIn = 0;
@@ -46,13 +48,16 @@ int main(int argc, char *argv[]){
 
     }
     else if(userIn == 2){
-
+      preOrder(rootPtr);
+      printf("\n");
     }
     else if(userIn == 3){
-      void inOrder(rootPtr);
+      inOrder(rootPtr);
+      printf("\n");
     }
     else if(userIn == 4){
-
+      postOrder(rootPtr);
+      printf("\n");
     }
     else if(userIn == 5){
       char variableName[10] = "";
@@ -88,116 +93,197 @@ expNode *parse(char *equation){
   char *leftEqu = "";
   char *rightEqu = "";
 
-  for(i = 0; i < strlen(equation) - 1; i++){
-    if(equation[i] == '('){
-      braCount += 1;
-    }
-    else if(equation[i] == ')'){
-      braCount -= 1;
-    }
+  if(equation[0] == '('){
 
-    if(equation[0] == 'x'){
-      newNode->element = malloc(sizeof(strlen(equation) + 4));
+    for(i = 0; i < strlen(equation) - 1; i++){
+      if(equation[i] == '('){
+        braCount += 1;
+      }
+      else if(equation[i] == ')'){
+        braCount -= 1;
+      }
+      if(equation[i + 1] == '+' && braCount == 1){
+        rightEqu = malloc(sizeof(i - 1));
+        leftEqu = malloc(sizeof(strlen(equation) - i));
 
-      strcpy(newNode->element, equation);
+        strncpy(leftEqu, equation + 1, i);
+        printf("<%s>\n", leftEqu);
+        newNode->left = parse(leftEqu);
 
-      for(k = 0; k < 4; i++){
-        if(k == 0){
-          newNode->element[sizeof(equation) - 1 + k] = ':';
+        strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
+        printf("@%s@\n", rightEqu);
+        newNode->right = parse(rightEqu);
+
+        if(equation[1 + i] == '+'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "+");
         }
-        else if(k == 1 || k == 3){
-          newNode->element[sizeof(equation) - 1 + k] = '0';
+        else if(equation[1 + i] == '-'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "-");
         }
-        else if(k == 2){
-          newNode->element[sizeof(equation) - 1 + k] = '.';
+        else if(equation[1 + i] == '*'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "*");
         }
+        else if(equation[1 + i] == '/'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "/");
+        }
+
+        return newNode;
+
+      }
+      else if(equation[i + 1] == '-' && braCount == 1){
+        rightEqu = malloc(sizeof(i - 1));
+        leftEqu = malloc(sizeof(strlen(equation) - i));
+
+        strncpy(leftEqu, equation + 1, i);
+        printf("<%s>\n", leftEqu);
+        newNode->left = parse(leftEqu);
+
+        strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
+        printf("@%s@\n", rightEqu);
+        newNode->right = parse(rightEqu);
+
+        if(equation[1 + i] == '+'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "+");
+        }
+        else if(equation[1 + i] == '-'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "-");
+        }
+        else if(equation[1 + i] == '*'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "*");
+        }
+        else if(equation[1 + i] == '/'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "/");
+        }
+
+        return newNode;
+
+      }
+      else if(equation[i + 1] == '*' && braCount == 1){
+        rightEqu = malloc(sizeof(i - 1));
+        leftEqu = malloc(sizeof(strlen(equation) - i));
+
+        strncpy(leftEqu, equation + 1, i);
+        printf("<%s>\n", leftEqu);
+        newNode->left = parse(leftEqu);
+
+        strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
+        printf("@%s@\n", rightEqu);
+        newNode->right = parse(rightEqu);
+
+        if(equation[1 + i] == '+'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "+");
+        }
+        else if(equation[1 + i] == '-'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "-");
+        }
+        else if(equation[1 + i] == '*'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "*");
+        }
+        else if(equation[1 + i] == '/'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "/");
+        }
+
+        return newNode;
+
+      }
+      else if(equation[i + 1] == '/' && braCount == 1){
+        rightEqu = malloc(sizeof(i - 1));
+        leftEqu = malloc(sizeof(strlen(equation) - i));
+
+        strncpy(leftEqu, equation + 1, i);
+        printf("<%s>\n", leftEqu);
+        newNode->left = parse(leftEqu);
+
+        strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
+        printf("@%s@\n", rightEqu);
+        newNode->right = parse(rightEqu);
+
+        if(equation[1 + i] == '+'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "+");
+        }
+        else if(equation[1 + i] == '-'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "-");
+        }
+        else if(equation[1 + i] == '*'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "*");
+        }
+        else if(equation[1 + i] == '/'){
+          newNode->element = malloc(sizeof(equation[1 + i]));
+          strcpy(newNode->element, "/");
+        }
+
+        return newNode;
+
       }
     }
+  }
+  else if(equation[0] == 'x'){
+    newNode->element = malloc(sizeof(strlen(equation) + 4));
 
-    if(isdigit(equation[0]) != 0){
-      newNode->element = malloc(sizeof(strlen(equation)));
-      strcpy(newNode->element, equation);
+    strcpy(newNode->element, equation);
+
+    for(k = 0; k < 4; i++){
+      if(k == 0){
+        newNode->element[strlen(equation) + k] = ':';
+      }
+      else if(k == 1 || k == 3){
+        newNode->element[strlen(equation) + k] = '0';
+      }
+      else if(k == 2){
+        newNode->element[strlen(equation) + k] = '.';
+      }
     }
-
-    if(equation[i + 1] == '+' && braCount == 1){
-      rightEqu = malloc(sizeof(i - 1));
-      leftEqu = malloc(sizeof(strlen(equation) - i));
-
-      strncpy(leftEqu, equation + 1, i);
-      printf("<%s>\n", leftEqu);
-      newNode->left = parse(leftEqu);
-
-      strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
-      printf("@%s@\n", rightEqu);
-      newNode->right = parse(rightEqu);
-    }
-    else if(equation[i + 1] == '-' && braCount == 1){
-      rightEqu = malloc(sizeof(i - 1));
-      leftEqu = malloc(sizeof(strlen(equation) - i));
-
-      strncpy(leftEqu, equation + 1, i);
-      printf("<%s>\n", leftEqu);
-      newNode->left = parse(leftEqu);
-
-      strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
-      printf("@%s@\n", rightEqu);
-      newNode->right = parse(rightEqu);
-    }
-    else if(equation[i + 1] == '*' && braCount == 1){
-      rightEqu = malloc(sizeof(i - 1));
-      leftEqu = malloc(sizeof(strlen(equation) - i));
-
-      strncpy(leftEqu, equation + 1, i);
-      printf("<%s>\n", leftEqu);
-      newNode->left = parse(leftEqu);
-
-      strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
-      printf("@%s@\n", rightEqu);
-      newNode->right = parse(rightEqu);
-    }
-    else if(equation[i + 1] == '/' && braCount == 1){
-      rightEqu = malloc(sizeof(i - 1));
-      leftEqu = malloc(sizeof(strlen(equation) - i));
-
-      strncpy(leftEqu, equation + 1, i);
-      printf("<%s>\n", leftEqu);
-      newNode->left = parse(leftEqu);
-
-      strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
-      printf("@%s@\n", rightEqu);
-      newNode->right = parse(rightEqu);
-    }
-
-    if(equation[1 + i] == '+'){
-      newNode->element = malloc(sizeof(equation[1 + i]));
-      strcpy(newNode->element, "+");
-    }
-    else if(equation[1 + i] == '-'){
-      newNode->element = malloc(sizeof(equation[1 + i]));
-      strcpy(newNode->element, "-");
-    }
-    else if(equation[1 + i] == '*'){
-      newNode->element = malloc(sizeof(equation[1 + i]));
-      strcpy(newNode->element, "*");
-    }
-    else if(equation[1 + i] == '/'){
-      newNode->element = malloc(sizeof(equation[1 + i]));
-      strcpy(newNode->element, "/");
-    }
-
-
-
+    return newNode;
+  }
+  else if(isdigit(equation[0]) != 0){
+    newNode->element = malloc(sizeof(strlen(equation)));
+    strcpy(newNode->element, equation);
+    return newNode;
   }
 
-
-
+  return newNode;
 
 }
 
+//online code https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
 void inOrder(expNode *nextNode){
   if(nextNode){
     inOrder(nextNode->left);
-    printf("%s", nextNode->element);
+    printf("%s ", nextNode->element);
     inOrder(nextNode->right);
   }
+
+//online code https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
+void preOrder(expNode *nextNode){
+  if(nextNode){
+    printf("%s ", nextNode->element);
+    preOrder(nextNode->left);
+    preOrder(nextNode->right);
+  }
+}
+
+//online code https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
+void postOrder(expNode *nextNode){
+  if(nextNode){
+    postOrder(nextNode->left);
+    postOrder(nextNode->right);
+    printf("%s ", nextNode->element);
+  }
+}
+
 }
