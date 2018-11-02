@@ -22,6 +22,8 @@ expNode *parse(char *equation);
 void inOrder(expNode *nextNode);
 void preOrder(expNode *nextNode);
 void postOrder(expNode *nextNode);
+float evaluate(expNode *rootNode);
+void printTree();
 
 int main(int argc, char *argv[]){
   int userIn = 0;
@@ -34,12 +36,12 @@ int main(int argc, char *argv[]){
 
   while(userIn != 7){
     printf("1. Display\n");
-    printf("2. Preorder\n");
-    printf("3. Inorder\n");
-    printf("4. Postorder\n");
+    printf("2. Preorder\n"); //done
+    printf("3. Inorder\n"); //done
+    printf("4. Postorder\n"); //done
     printf("5. Update\n");
     printf("6. Calculate\n");
-    printf("7. Exit\n\n");
+    printf("7. Exit\n\n"); //done
 
     printf("Please choose an action: (Enter numbers 1 - 7): ");
     scanf("%d", &userIn);
@@ -65,6 +67,10 @@ int main(int argc, char *argv[]){
 
     }
     else if(userIn == 6){
+      float result = 0;
+
+      result = evaluate(rootPtr);
+      printf("%f\n", result);
 
     }
     else if(userIn == 7){
@@ -92,6 +98,9 @@ expNode *parse(char *equation){
   expNode *newNode = malloc(sizeof(expNode));
   char *leftEqu = "";
   char *rightEqu = "";
+
+  newNode->left = NULL;
+  newNode->right = NULL;
 
   if(equation[0] == '('){
 
@@ -248,6 +257,7 @@ expNode *parse(char *equation){
         newNode->element[strlen(equation) + k] = '.';
       }
     }
+    printf("Q%sQ\n", newNode->element );
     return newNode;
   }
   else if(isdigit(equation[0]) != 0){
@@ -285,4 +295,38 @@ void postOrder(expNode *nextNode){
     postOrder(nextNode->right);
     printf("%s ", nextNode->element);
   }
+}
+
+float evaluate(expNode *rootNode){
+
+  if(rootNode){
+    //want to check if node is a leaf
+    if(rootNode->left == NULL && rootNode->right == NULL){
+      return atof(rootNode->element);
+    }
+    float leftVal = evaluate(rootNode->left);
+    float rightVal = evaluate(rootNode->right);
+
+    if(strcmp(rootNode->element, "+") == 0){
+      printf("ADD\n");
+      return leftVal + rightVal;
+    }
+    else if(strcmp(rootNode->element, "-") == 0){
+      printf("SUB\n");
+      return leftVal - rightVal;
+    }
+    else if(strcmp(rootNode->element, "*") == 0){
+      printf("MUL\n");
+      return leftVal * rightVal;
+    }
+    else if(strcmp(rootNode->element, "/") == 0){
+      printf("DIV\n");
+      return leftVal / rightVal;
+    }
+  }
+  return 0.0;
+}
+
+void printTree(){
+
 }
