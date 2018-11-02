@@ -9,17 +9,27 @@ Assignment 3 - q2.c
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#define ROW 20
+#define COLUMN 10
 
 int main(){
   FILE *fp;
 
   fp = fopen("f.dat", "r");
-  char line[30];
+  char element[2];
+  int fileArr[20][10];
+  int i = 0;
+  int k = 0;
 
   if(fp != NULL){
-    while(fgets(line, sizeof(line), fp) != NULL){
-
+    for (i = 0; i < ROW; i++){
+      for(k = 0; k < COLUMN; k++){
+        if(fscanf(fp, "%s", element) == 1){
+          fileArr[i][k] = atoi(element);
+        }
+      }
     }
+
   }
 
 
