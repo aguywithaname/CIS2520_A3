@@ -70,7 +70,8 @@ int main(int argc, char *argv[]){
       float result = 0;
 
       result = evaluate(rootPtr);
-      printf("%f\n", result);
+      printf("The answer is: %f\n", result);
+      printf("\n");
 
     }
     else if(userIn == 7){
@@ -297,31 +298,35 @@ void postOrder(expNode *nextNode){
   }
 }
 
+//help from https://www.youtube.com/watch?v=2tpcqDmvJBU
 float evaluate(expNode *rootNode){
+  float leftVal = 0;
+  float rightVal = 0;
+  float tempVal = 0;
 
   if(rootNode){
     //want to check if node is a leaf
     if(rootNode->left == NULL && rootNode->right == NULL){
       return atof(rootNode->element);
     }
-    float leftVal = evaluate(rootNode->left);
-    float rightVal = evaluate(rootNode->right);
+    leftVal = evaluate(rootNode->left);
+    rightVal = evaluate(rootNode->right);
 
     if(strcmp(rootNode->element, "+") == 0){
-      printf("ADD\n");
-      return leftVal + rightVal;
+      tempVal = leftVal + rightVal;
+      return tempVal;
     }
     else if(strcmp(rootNode->element, "-") == 0){
-      printf("SUB\n");
-      return leftVal - rightVal;
+      tempVal = leftVal - rightVal;
+      return tempVal;
     }
     else if(strcmp(rootNode->element, "*") == 0){
-      printf("MUL\n");
-      return leftVal * rightVal;
+      tempVal = leftVal * rightVal;
+      return tempVal;
     }
     else if(strcmp(rootNode->element, "/") == 0){
-      printf("DIV\n");
-      return leftVal / rightVal;
+      tempVal = leftVal / rightVal;
+      return tempVal;
     }
   }
   return 0.0;
