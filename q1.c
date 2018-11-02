@@ -24,6 +24,7 @@ void preOrder(expNode *nextNode);
 void postOrder(expNode *nextNode);
 float evaluate(expNode *rootNode);
 void printTree();
+void update(expNode *rootNode,char *variableName,char *newValue);
 
 int main(int argc, char *argv[]){
   int userIn = 0;
@@ -40,7 +41,7 @@ int main(int argc, char *argv[]){
     printf("3. Inorder\n"); //done
     printf("4. Postorder\n"); //done
     printf("5. Update\n");
-    printf("6. Calculate\n");
+    printf("6. Calculate\n"); //done except for divide by 0
     printf("7. Exit\n\n"); //done
 
     printf("Please choose an action: (Enter numbers 1 - 7): ");
@@ -63,7 +64,15 @@ int main(int argc, char *argv[]){
     }
     else if(userIn == 5){
       char variableName[10] = "";
-      float newValue = 0;
+      char newValue[10] = "";
+
+      printf("Enter variable name: ");
+      scanf("%s", variableName);
+      printf("Enter new value: ");
+      scanf("%s", newValue);
+
+      printf("Updating value.\n");
+      update(rootPtr,variableName,newValue);
 
     }
     else if(userIn == 6){
@@ -95,11 +104,9 @@ void insert(char ){
 expNode *parse(char *equation){
   int braCount = 0;
   int i = 0;
-  int k = 0;
   expNode *newNode = malloc(sizeof(expNode));
   char *leftEqu = "";
   char *rightEqu = "";
-
   newNode->left = NULL;
   newNode->right = NULL;
 
@@ -243,10 +250,10 @@ expNode *parse(char *equation){
     }
   }
   else if(equation[0] == 'x'){
-    newNode->element = malloc(sizeof(strlen(equation) + 4));
-
+    newNode->element = malloc(sizeof(strlen(equation)));
     strcpy(newNode->element, equation);
 
+/*
     for(k = 0; k < 4; k++){
       if(k == 0){
         newNode->element[strlen(equation) + k] = ':';
@@ -257,8 +264,9 @@ expNode *parse(char *equation){
       else if(k == 2){
         newNode->element[strlen(equation) + k] = '.';
       }
+
     }
-    printf("Q%sQ\n", newNode->element );
+    */
     return newNode;
   }
   else if(isdigit(equation[0]) != 0){
@@ -309,6 +317,7 @@ float evaluate(expNode *rootNode){
     if(rootNode->left == NULL && rootNode->right == NULL){
       return atof(rootNode->element);
     }
+    //if it isn't a leaf, then move on to the next left node
     leftVal = evaluate(rootNode->left);
     rightVal = evaluate(rootNode->right);
 
@@ -333,5 +342,17 @@ float evaluate(expNode *rootNode){
 }
 
 void printTree(){
+
+}
+
+void update(expNode *rootNode,char *variableName,char *newValue){
+  if(rootNode){
+    update(rootNode->left,variableName,newValue);
+    if(strcmp(rootNode->element, variableName) == 0){
+      rootNode->element = malloc(sizeof(newValue));
+      strcpy(rootNode->element, newValue);
+    }
+    update(rootNode->right,variableName,newValue);
+  }
 
 }
