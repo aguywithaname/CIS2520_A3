@@ -46,7 +46,7 @@ int main(int argc, char *argv[]){
     scanf("%d", &userIn);
 
     if(userIn == 1){
-      printf("\t/\n______|______\n|\t|\n*\tx3\n______|______\n|\t\t|\n+\n____|____ ____|____\n|\t|\t|\t|\nx1\t5.12\tx2\t7.68\n");
+      printTree();
     }
     else if(userIn == 2){
       preOrder(rootPtr);
@@ -81,6 +81,7 @@ int main(int argc, char *argv[]){
       float result = 0;
 
       result = evaluate(rootPtr);
+      //check if result is inifite (divide by zero);
       if (result == -INFINITY || result == INFINITY){
         printf("You are dividing by zero.\n");
       } else {
@@ -111,8 +112,9 @@ expNode *parse(char *equation){
   newNode->left = NULL;
   newNode->right = NULL;
 
+  //if the first element in equation is a (
   if(equation[0] == '('){
-
+    //count the number of brackets we pass by
     for(i = 0; i < strlen(equation) - 1; i++){
       if(equation[i] == '('){
         braCount += 1;
@@ -120,19 +122,23 @@ expNode *parse(char *equation){
       else if(equation[i] == ')'){
         braCount -= 1;
       }
+      //if bracket == 1 and the next char in equation is an operator
       if(equation[i + 1] == '+' && braCount == 1){
         rightEqu = malloc(sizeof(i - 1));
         leftEqu = malloc(sizeof(strlen(equation) - i));
 
         strncpy(leftEqu, equation + 1, i);
+        //create children for operator node
+        //can add print statement here to check
         newNode->left = parse(leftEqu);
 
         strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
         newNode->right = parse(rightEqu);
 
+        //create new node that holds operator (this occurs for all operators)
         if(equation[1 + i] == '+'){
           newNode->element = malloc(sizeof(equation[1 + i]));
-          //can add print statement here to check
+
           strcpy(newNode->element, "+");
         }
         else if(equation[1 + i] == '-'){
@@ -243,6 +249,7 @@ expNode *parse(char *equation){
       }
     }
   }
+  //check if element in equation is variable. Put it into new node.
   else if(equation[0] == 'x'){
     newNode->element = malloc(sizeof(strlen(equation)));
     strcpy(newNode->element, equation);
@@ -264,6 +271,7 @@ expNode *parse(char *equation){
     */
     return newNode;
   }
+  //check if element in equation is digit. Put it into new node. (leaf nodes)
   else if(isdigit(equation[0]) != 0){
     newNode->element = malloc(sizeof(strlen(equation)));
     strcpy(newNode->element, equation);
@@ -275,6 +283,7 @@ expNode *parse(char *equation){
 }
 
 //online code https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
+//function to print inorder
 void inOrder(expNode *nextNode){
   if(nextNode){
     inOrder(nextNode->left);
@@ -284,6 +293,7 @@ void inOrder(expNode *nextNode){
 }
 
 //online code https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
+//function to print preorder
 void preOrder(expNode *nextNode){
   if(nextNode){
     printf("%s ", nextNode->element);
@@ -293,6 +303,7 @@ void preOrder(expNode *nextNode){
 }
 
 //online code https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
+//function to print postorder
 void postOrder(expNode *nextNode){
   if(nextNode){
     postOrder(nextNode->left);
@@ -302,6 +313,7 @@ void postOrder(expNode *nextNode){
 }
 
 //help from https://www.youtube.com/watch?v=2tpcqDmvJBU
+//function that calculates equation by reading binary tree
 float evaluate(expNode *rootNode){
   float leftVal = 0;
   float rightVal = 0;
@@ -316,6 +328,7 @@ float evaluate(expNode *rootNode){
     leftVal = evaluate(rootNode->left);
     rightVal = evaluate(rootNode->right);
 
+    //calculation of equation occurs here
     if(strcmp(rootNode->element, "+") == 0){
       tempVal = leftVal + rightVal;
       return tempVal;
@@ -337,12 +350,14 @@ float evaluate(expNode *rootNode){
 }
 
 void printTree(){
-
+  printf("\t/\n______|______\n|\t|\n*\tx3\n______|______\n|\t\t|\n+\n____|____ ____|____\n|\t|\t|\t|\nx1\t5.12\tx2\t7.68\n");
 }
 
+//function to update variable value
 void update(expNode *rootNode, char *variableName, char *newValue){
   if(rootNode){
     update(rootNode->left, variableName, newValue);
+    //make sure the value you want to change exists in equation
     if(strcmp(rootNode->element, variableName) == 0){
       rootNode->element = malloc(sizeof(newValue));
       strcpy(rootNode->element, newValue);

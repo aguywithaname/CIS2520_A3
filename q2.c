@@ -62,13 +62,15 @@ int main(){
         objArr[i].arr[k] = fileArr[i][k];
     }
   }
-
+  //size of list
   arrSize = sizeof(objArr)/sizeof(objArr[0]);
 
+  //store objects into a heap
   for(i = (arrSize / 2) - 1 ; i >= 0; i--){
     addToHeap(objArr, i, arrSize);
   }
-objNode tempObj;
+  objNode tempObj;
+  //swap position in arrayList
   for(i = arrSize - 1; i >= 0; i--){
     tempObj.key = objArr[0].key;
     for(k = 0; k < 10; k++){
@@ -105,6 +107,7 @@ objNode tempObj;
 }
 
 //https://www.geeksforgeeks.org/heap-sort/ MY CODE IS MODIFIED FROM THIS NO MOSS PLEASE
+//sorts the heap(array) when it is added to the heap
 void addToHeap(objNode objArr[], int i, int arrSize){
   int smallest = 0;
   int leftChild = 0;
@@ -124,6 +127,7 @@ void addToHeap(objNode objArr[], int i, int arrSize){
     smallest = rightChild;
   }
 
+  //swap function, change position of smallest/greatest values
   if(smallest != i){
     tempObj.key = objArr[i].key;
     for(k = 0; k < 10; k++){
