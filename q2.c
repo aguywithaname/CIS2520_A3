@@ -68,14 +68,13 @@ int main(){
   for(i = (arrSize / 2) - 1 ; i >= 0; i--){
     addToHeap(objArr, i, arrSize);
   }
-
+objNode tempObj;
   for(i = arrSize - 1; i >= 0; i--){
-    objNode tempObj;
-
     tempObj.key = objArr[0].key;
     for(k = 0; k < 10; k++){
       tempObj.arr[k] = objArr[0].arr[k];
     }
+    //printf("-%d\n",objArr[0].key );
     objArr[0].key = objArr[i].key;
     for(k = 0; k < 10; k++){
       objArr[0].arr[k] = objArr[i].arr[k];
@@ -85,29 +84,24 @@ int main(){
       objArr[i].arr[k] = tempObj.arr[k];
     }
 
-    addToHeap(objArr, i, 0);
+    //switch i and 0??
+    addToHeap(objArr, 0, i);
   }
 
-
-  for(i = 0; i < ROW; i++){
+  for(i = 1; i <= ROW; i++){
+  //printf("<%d> ",objArr[i].key );
     for(k = 0; k < COLUMN; k++){
-      printf("%d ", fileArr[i][k]);
+      printf("%d ", objArr[i].arr[k]);
     }
     printf("\n");
   }
-
 /*
   printf("$%d$\n", objArr[0].key);
   for(i = 0; i< COLUMN; i++){
     printf("#%d#\n", objArr[0].arr[i]);
   }
   */
-
-
-
-
   return 0;
-
 }
 
 //https://www.geeksforgeeks.org/heap-sort/ MY CODE IS MODIFIED FROM THIS NO MOSS PLEASE
@@ -122,11 +116,11 @@ void addToHeap(objNode objArr[], int i, int arrSize){
   leftChild = (2 * i) + 1;
   rightChild = (2 * i) + 2;
 
-  if(leftChild < arrSize && objArr[leftChild].key < objArr[smallest].key){
+  if(leftChild < arrSize && objArr[leftChild].key > objArr[smallest].key){
     smallest = leftChild;
   }
 
-  if(rightChild < arrSize && objArr[rightChild].key < objArr[smallest].key){
+   if(rightChild < arrSize && objArr[rightChild].key > objArr[smallest].key){
     smallest = rightChild;
   }
 
@@ -143,9 +137,6 @@ void addToHeap(objNode objArr[], int i, int arrSize){
     for(k = 0; k < 10; k++){
       objArr[smallest].arr[k] = tempObj.arr[k];
     }
-    printf("--%d\n", objArr[smallest].key);
     addToHeap(objArr, smallest, arrSize);
-
   }
-
 }

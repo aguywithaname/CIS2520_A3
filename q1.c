@@ -34,30 +34,33 @@ int main(int argc, char *argv[]){
   rootPtr = parse(equation);
 
   while(userIn != 7){
-    printf("1. Display\n");
+    printf("1. Display\n"); //sure
     printf("2. Preorder\n"); //done
     printf("3. Inorder\n"); //done
     printf("4. Postorder\n"); //done
-    printf("5. Update\n");
-    printf("6. Calculate\n"); //done except for divide by 0
+    printf("5. Update\n");  //done
+    printf("6. Calculate\n"); //done
     printf("7. Exit\n\n"); //done
 
     printf("Please choose an action: (Enter numbers 1 - 7): ");
     scanf("%d", &userIn);
 
     if(userIn == 1){
-      printf("/\n______|______\n| |\n* x3______|______\n| |\n+ ____|____ ____|____\n| | | |\nx1 5.12 x2 7.68\n");
+      printf("\t/\n______|______\n|\t|\n*\tx3\n______|______\n|\t\t|\n+\n____|____ ____|____\n|\t|\t|\t|\nx1\t5.12\tx2\t7.68\n");
     }
     else if(userIn == 2){
       preOrder(rootPtr);
+      printf("\n");
       printf("\n");
     }
     else if(userIn == 3){
       inOrder(rootPtr);
       printf("\n");
+      printf("\n");
     }
     else if(userIn == 4){
       postOrder(rootPtr);
+      printf("\n");
       printf("\n");
     }
     else if(userIn == 5){
@@ -71,13 +74,19 @@ int main(int argc, char *argv[]){
 
       printf("Updating value.\n");
       update(rootPtr,variableName,newValue);
+      printf("\n");
 
     }
     else if(userIn == 6){
       float result = 0;
 
       result = evaluate(rootPtr);
-      printf("The answer is: %f\n", result);
+      if (result == -INFINITY || result == INFINITY){
+        printf("You are dividing by zero.\n");
+      } else {
+        printf("The answer is: %f\n", result);
+      }
+
       printf("\n");
 
     }
@@ -116,15 +125,14 @@ expNode *parse(char *equation){
         leftEqu = malloc(sizeof(strlen(equation) - i));
 
         strncpy(leftEqu, equation + 1, i);
-        printf("<%s>\n", leftEqu);
         newNode->left = parse(leftEqu);
 
         strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
-        printf("@%s@\n", rightEqu);
         newNode->right = parse(rightEqu);
 
         if(equation[1 + i] == '+'){
           newNode->element = malloc(sizeof(equation[1 + i]));
+          //can add print statement here to check
           strcpy(newNode->element, "+");
         }
         else if(equation[1 + i] == '-'){
@@ -148,11 +156,9 @@ expNode *parse(char *equation){
         leftEqu = malloc(sizeof(strlen(equation) - i));
 
         strncpy(leftEqu, equation + 1, i);
-        printf("<%s>\n", leftEqu);
         newNode->left = parse(leftEqu);
 
         strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
-        printf("@%s@\n", rightEqu);
         newNode->right = parse(rightEqu);
 
         if(equation[1 + i] == '+'){
@@ -180,11 +186,9 @@ expNode *parse(char *equation){
         leftEqu = malloc(sizeof(strlen(equation) - i));
 
         strncpy(leftEqu, equation + 1, i);
-        printf("<%s>\n", leftEqu);
         newNode->left = parse(leftEqu);
 
         strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
-        printf("@%s@\n", rightEqu);
         newNode->right = parse(rightEqu);
 
         if(equation[1 + i] == '+'){
@@ -212,11 +216,9 @@ expNode *parse(char *equation){
         leftEqu = malloc(sizeof(strlen(equation) - i));
 
         strncpy(leftEqu, equation + 1, i);
-        printf("<%s>\n", leftEqu);
         newNode->left = parse(leftEqu);
 
         strncpy(rightEqu, equation + i + 2, strlen(equation) - i - 3);
-        printf("@%s@\n", rightEqu);
         newNode->right = parse(rightEqu);
 
         if(equation[1 + i] == '+'){
@@ -245,6 +247,7 @@ expNode *parse(char *equation){
     newNode->element = malloc(sizeof(strlen(equation)));
     strcpy(newNode->element, equation);
 
+//this sets the values with x values to start with 0.0
 /*
     for(k = 0; k < 4; k++){
       if(k == 0){
@@ -337,14 +340,14 @@ void printTree(){
 
 }
 
-void update(expNode *rootNode,char *variableName,char *newValue){
+void update(expNode *rootNode, char *variableName, char *newValue){
   if(rootNode){
-    update(rootNode->left,variableName,newValue);
+    update(rootNode->left, variableName, newValue);
     if(strcmp(rootNode->element, variableName) == 0){
       rootNode->element = malloc(sizeof(newValue));
       strcpy(rootNode->element, newValue);
     }
-    update(rootNode->right,variableName,newValue);
+    update(rootNode->right, variableName, newValue);
   }
 
 }
