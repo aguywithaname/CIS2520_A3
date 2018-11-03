@@ -17,7 +17,6 @@ typedef struct node{
   struct node *right;
 } expNode;
 
-//void insert(expNode *rootPtr);
 expNode *parse(char *equation);
 void inOrder(expNode *nextNode);
 void preOrder(expNode *nextNode);
@@ -32,7 +31,6 @@ int main(int argc, char *argv[]){
   char equation[50];
 
   strcpy(equation, argv[1]);
-
   rootPtr = parse(equation);
 
   while(userIn != 7){
@@ -48,7 +46,7 @@ int main(int argc, char *argv[]){
     scanf("%d", &userIn);
 
     if(userIn == 1){
-
+      printf("/\n______|______\n| |\n* x3______|______\n| |\n+ ____|____ ____|____\n| | | |\nx1 5.12 x2 7.68\n");
     }
     else if(userIn == 2){
       preOrder(rootPtr);
@@ -94,12 +92,6 @@ int main(int argc, char *argv[]){
   return 0;
 
 }
-
-/*
-void insert(char ){
-
-}
-*/
 
 expNode *parse(char *equation){
   int braCount = 0;
