@@ -7,7 +7,7 @@ Run the makefile first.
 Description:
 q1.c
 
-To run the program, enter a valid infix expression in the command line (eg. ./q1 "(((1+x1)+(4+8))/(1+x2))").
+To run the program, enter a valid infix expression in the command line in double quotations(eg. ./q1 "(((1+x1)+(4+8))/(1+x2))").
 As directed the assignment instructions, you will enter a number between 1 - 7
 in order to run the functionality of the program. Here is a quick rundown:
 
