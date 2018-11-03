@@ -1,0 +1,5 @@
+https://www.geeksforgeeks.org/search-insert-and-delete-in-a-sorted-array/
+https://www.geeksforgeeks.org/heap-sort/
+https://www.geeksforgeeks.org/array-representation-of-binary-heap/
+https://www.geeksforgeeks.org/heap-sort-for-decreasing-order-using-min-heap/
+https://www.geeksforgeeks.org/binary-heap/
